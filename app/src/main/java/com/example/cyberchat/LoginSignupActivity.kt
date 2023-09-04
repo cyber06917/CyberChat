@@ -15,15 +15,22 @@ class LoginSignupActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var signUpTextView: TextView
+    private var email: String = ""
+    private var password: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verification)
         initializeViews()
 
+        loginButton.setOnClickListener {
+            email = emailEditText.text.toString()
+            password = passwordEditText.text.toString()
+            signIn(email, password)
 
+        }
         signUpTextView.setOnClickListener {
-            isEmailValid()
+            isEmailPasswordValid()
         }
     }
 
@@ -37,10 +44,28 @@ class LoginSignupActivity : AppCompatActivity() {
 
     }
 
-    private fun signUp(emailPhone:String, password:String) {
+    private fun signIn(email:String, password: String){
 
-        if (emailPhone.isNotEmpty() && password.isNotEmpty()) {
-            myAuth.createUserWithEmailAndPassword(emailPhone, password)
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            myAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in successful
+                        Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Sign in failed
+                        Toast.makeText(this, "Sign in failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        } else {
+
+            Toast.makeText(this, "Password or Email/Phone is empty", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun signUp(email:String, password:String) {
+
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            myAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Registration successful
@@ -59,28 +84,24 @@ class LoginSignupActivity : AppCompatActivity() {
 
     }
     // Validate a email
-    private fun isEmailValid(){
+    private fun isEmailPasswordValid(){
         // signup email & password
-        val email = emailEditText.text.toString()
-        val password = passwordEditText.text.toString()
+        email = emailEditText.text.toString()
+        password = passwordEditText.text.toString()
 
         val emailPattern = "[a-zA-Z0-9._%+-]+@(gmail\\.com|outlook\\.com)"
-        val valid = email.matches(emailPattern.toRegex())
+        val passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"
 
-        // Email validator
-        if (valid) {
+        val passwordValidated = password.matches(passwordPattern.toRegex())
+        val emailValidated = email.matches(emailPattern.toRegex())
+
+
+        // Email & password validator
+        if (emailValidated && passwordValidated ) {
             signUp(email, password)
         } else {
-            Toast.makeText(this, "email is not valid", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, " Email $emailValidated & password $passwordValidated", Toast.LENGTH_SHORT).show()
         }
     }
-
-    // Validate a password
-    private fun isPasswordValid(password: String): Boolean {
-        val passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"
-        return password.matches(passwordPattern.toRegex())
-    }
-
-
 
 }
