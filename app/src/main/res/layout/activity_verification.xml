@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +14,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="100dp"
-        android:contentDescription="App Logo"
+        android:contentDescription="@string/app_logo"
         android:src="@drawable/ic_launcher_foreground" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -23,12 +22,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="@string/email_phone_hint"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/usernameEditText"
+            android:id="@+id/emailEditTextId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
@@ -42,14 +41,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/password_hint"
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="24dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordEditText"
+            android:id="@+id/passwordEditTextId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -59,27 +58,26 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/loginButtonId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:backgroundTint="@color/colorPrimary"
         android:elevation="2dp"
-        android:text="Log In"
+        android:text="@string/log_in_button"
         android:textColor="@android:color/white" />
 
     <TextView
-        android:id="@+id/output"
-        android:layout_width="match_parent"
+        android:id="@+id/signupLinkId"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="output"
-        android:textSize="30sp"
-        android:textAlignment="center"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
-
+        android:text="@string/sign_up_button"
+        android:textSize="15sp"
+        android:textColor="@color/colorPrimary"
+        android:clickable="true"
+        android:padding="15dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:focusable="true"
         />
 
 

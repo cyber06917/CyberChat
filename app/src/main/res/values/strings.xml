@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CyberChat</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="log_in_button">Log In</string>
+    <string name="password_hint">Password</string>
+    <string name="email_phone_hint">Email Address</string>
+    <string name="app_logo">App Logo</string>
 </resources>
