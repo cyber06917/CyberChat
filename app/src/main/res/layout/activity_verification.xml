@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@android:color/white"
-    tools:context=".VerificationActivity">
+    tools:context=".LoginSignupActivity">
 
     <ImageView
         android:id="@+id/logoImageView"
