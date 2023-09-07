@@ -1,5 +1,6 @@
 package com.example.cyberchat
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -20,7 +21,7 @@ class LoginSignupActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_verification)
+        setContentView(R.layout.activity_login_signup)
         initializeViews()
 
         loginButton.setOnClickListener {
@@ -51,6 +52,7 @@ class LoginSignupActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in successful
+                        chatWindow()
                         Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
                     } else {
                         // Sign in failed
@@ -62,6 +64,15 @@ class LoginSignupActivity : AppCompatActivity() {
             Toast.makeText(this, "Password or Email/Phone is empty", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun chatWindow(){
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+
+    }
+
+
     private fun signUp(email:String, password:String) {
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
@@ -89,8 +100,8 @@ class LoginSignupActivity : AppCompatActivity() {
         email = emailEditText.text.toString()
         password = passwordEditText.text.toString()
 
-        val emailPattern = "[a-zA-Z0-9._%+-]+@(gmail\\.com|outlook\\.com)"
-        val passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"
+        val emailPattern = getString(R.string.email_pattern)
+        val passwordPattern = getString(R.string.password_pattern)
 
         val passwordValidated = password.matches(passwordPattern.toRegex())
         val emailValidated = email.matches(emailPattern.toRegex())
