@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        tools:ignore="UseCompoundDrawables">
-
-        <!-- User icon -->
-        <ImageView
-            android:id="@+id/userProfileImage"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/user_icon"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="TODO" />
-
-        <!-- User's name -->
-        <TextView
-            android:id="@+id/userName"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="John Doe"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp" />
+            android:orientation="horizontal"
+            android:padding="16dp"
+            tools:ignore="UseCompoundDrawables">
 
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+            <!-- User icon -->
+            <ImageView
+                android:id="@+id/userProfileImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="TODO"
+                android:src="@drawable/user_icon" />
+
+            <!-- User's name -->
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="John Doe"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+

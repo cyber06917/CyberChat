@@ -1,19 +1,25 @@
 package com.example.cyberchat
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class MyAdapter(private val context: Context, private val dataList: List<MyDataModel>) : RecyclerView.Adapter<MyViewHolder>() {
+class MyAdapter() : RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        TODO("Not yet implemented")
+        val context = parent.context
+
+        // Inflate the item layout using the context
+        val itemView = LayoutInflater.from(context).inflate(R.layout.user_list, parent, false)
+        return MyViewHolder(itemView)
+
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return 5
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        TODO("Not yet implemented")
+
     }
 }

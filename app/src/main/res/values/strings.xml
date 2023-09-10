@@ -6,6 +6,6 @@
     <string name="email_phone_hint">Email Address</string>
     <string name="app_logo">App Logo</string>
     <string name="user_icon_description">just a user icon</string>
-    <string name="email_pattern">[a-zA-Z0-9._%+-]+@(gmail\\.com|outlook\\.com)</string>
+    <string name="email_pattern">[a–zA–Z0–9._%+-]+@(gmail\\.com|outlook\\.com)</string>
     <string name="password_pattern"><![CDATA[^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$]]></string>
 </resources>
