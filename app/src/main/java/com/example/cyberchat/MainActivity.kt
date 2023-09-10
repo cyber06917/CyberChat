@@ -1,5 +1,6 @@
 package com.example.cyberchat
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private val mAuth = FirebaseAuth.getInstance()
     private lateinit var userList: ArrayList<User>
     private lateinit var mDatabaseRef: DatabaseReference
+    private val myAuth = FirebaseAuth.getInstance()
+    val shareObj = LoginSignupActivity()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+
     private fun initializeViewsAndAdapters() {
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("user")
         userListRecyclerView = findViewById(R.id.recyclerView)
@@ -67,9 +71,14 @@ class MainActivity : AppCompatActivity() {
                 userList.clear()
 
                 // Iterate through the data and add to userList
+
+
                 for (a in dataSnapshot.children) {
                     val currentUser = a.getValue(User::class.java)
-                    currentUser?.let { userList.add(it) }
+                    if(myAuth.currentUser?.uid != currentUser?.uid){
+                        currentUser?.let { userList.add(it) }
+                    }
+
                 }
 
                 // Notify the adapter that the data has changed

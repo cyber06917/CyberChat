@@ -15,19 +15,25 @@ import com.google.firebase.database.FirebaseDatabase
 
 class LoginSignupActivity : AppCompatActivity() {
 
-    private lateinit var myAuth:FirebaseAuth
+    private  val myAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var signUpTextView: TextView
-    private lateinit var mDatabaseRef : DatabaseReference
+    private lateinit var mDatabaseRef: DatabaseReference
     private var email: String = ""
     private var password: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_signup)
-        initializeViews()
+
+        if (myAuth.currentUser != null){
+            chatWindow()
+
+        }else{
+            initializeViews()
+        }
 
         loginButton.setOnClickListener {
             email = emailEditText.text.toString().lowercase()
@@ -44,9 +50,9 @@ class LoginSignupActivity : AppCompatActivity() {
 
     }
 
-    private fun clearEmailPassword(){
+    private fun clearEmailPassword() {
         val handler = Handler(Looper.getMainLooper())
-        val runnable = Runnable{
+        val runnable = Runnable {
             emailEditText.text.clear()
             passwordEditText.text.clear()
         }
@@ -59,18 +65,18 @@ class LoginSignupActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.loginButtonId)
         signUpTextView = findViewById(R.id.signupLinkId)
         signUpTextView.isClickable = true
-        myAuth = FirebaseAuth.getInstance()
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("user")
 
     }
 
-    private fun signIn(email:String, password: String){
+    private fun signIn(email: String, password: String) {
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
             myAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in successful
+
                         chatWindow()
                         Toast.makeText(this, "Sign in successful", Toast.LENGTH_LONG).show()
 
@@ -85,7 +91,7 @@ class LoginSignupActivity : AppCompatActivity() {
         }
     }
 
-    private fun chatWindow(){
+    private fun chatWindow() {
 
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -93,7 +99,7 @@ class LoginSignupActivity : AppCompatActivity() {
     }
 
 
-    private fun signUp(email:String, password:String) {
+    private fun signUp(email: String, password: String) {
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
             myAuth.createUserWithEmailAndPassword(email, password)
@@ -106,7 +112,11 @@ class LoginSignupActivity : AppCompatActivity() {
 
                     } else {
                         // Registration failed
-                        Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            "Registration failed: ${task.exception?.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
@@ -131,12 +141,11 @@ class LoginSignupActivity : AppCompatActivity() {
         mDatabaseRef.child(uid).setValue(User(name, email, uid))
 
 
-
     }
 
 
     // Validate a email
-    private fun isEmailPasswordValid(){
+    private fun isEmailPasswordValid() {
         // signup email & password
         email = emailEditText.text.toString().lowercase()
         password = passwordEditText.text.toString()
@@ -149,11 +158,16 @@ class LoginSignupActivity : AppCompatActivity() {
 
 
         // Email & password validator
-        if (emailValidated && passwordValidated ) {
+        if (emailValidated && passwordValidated) {
             signUp(email, password)
         } else {
-            Toast.makeText(this, " Email $emailValidated & password $passwordValidated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                " Email $emailValidated & password $passwordValidated",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
-
 }
+
+
