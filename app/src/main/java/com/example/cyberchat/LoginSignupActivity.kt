@@ -3,6 +3,8 @@ package com.example.cyberchat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -28,14 +30,27 @@ class LoginSignupActivity : AppCompatActivity() {
         initializeViews()
 
         loginButton.setOnClickListener {
-            email = emailEditText.text.toString()
+            email = emailEditText.text.toString().lowercase()
             password = passwordEditText.text.toString()
             signIn(email, password)
+            clearEmailPassword()
 
         }
         signUpTextView.setOnClickListener {
             isEmailPasswordValid()
+            clearEmailPassword()
         }
+
+
+    }
+
+    private fun clearEmailPassword(){
+        val handler = Handler(Looper.getMainLooper())
+        val runnable = Runnable{
+            emailEditText.text.clear()
+            passwordEditText.text.clear()
+        }
+        handler.postDelayed(runnable, 5000)
     }
 
     private fun initializeViews() {
@@ -57,7 +72,8 @@ class LoginSignupActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in successful
                         chatWindow()
-                        Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign in successful", Toast.LENGTH_LONG).show()
+
                     } else {
                         // Sign in failed
                         Toast.makeText(this, "Sign in failed", Toast.LENGTH_SHORT).show()
@@ -122,7 +138,7 @@ class LoginSignupActivity : AppCompatActivity() {
     // Validate a email
     private fun isEmailPasswordValid(){
         // signup email & password
-        email = emailEditText.text.toString()
+        email = emailEditText.text.toString().lowercase()
         password = passwordEditText.text.toString()
 
         val emailPattern = getString(R.string.email_pattern)

@@ -1,16 +1,24 @@
 package com.example.cyberchat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var userListRecyclerView: RecyclerView
     private var backPressedTime = 0L
+    private val mAuth = FirebaseAuth.getInstance()
+    private lateinit var userList: ArrayList<User>
+    private lateinit var mDatabaseRef: DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,21 +31,57 @@ class MainActivity : AppCompatActivity() {
         setupBackPressedHandler()
     }
 
-    //added a top right menu for logout
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Inflate the menu resource file (e.g., menu_main.xml) into the menu object
         menuInflater.inflate(R.menu.side_menu, menu)
         return true
     }
 
-
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_settings -> {
+                mAuth.signOut()
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     private fun initializeViewsAndAdapters() {
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("user")
         userListRecyclerView = findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
         userListRecyclerView.layoutManager = layoutManager
-        userListRecyclerView.adapter = MyAdapter()
+
+        // Initialize userList as an empty ArrayList<User>
+        userList = ArrayList()
+
+        // Create and set the adapter with the initialized userList
+        val adapter = MyAdapter(userList)
+        userListRecyclerView.adapter = adapter
+
+        mDatabaseRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Clear the existing data
+                val previousSize = userList.size
+                userList.clear()
+
+                // Iterate through the data and add to userList
+                for (a in dataSnapshot.children) {
+                    val currentUser = a.getValue(User::class.java)
+                    currentUser?.let { userList.add(it) }
+                }
+
+                // Notify the adapter that the data has changed
+                adapter.notifyItemRangeRemoved(0, previousSize)
+                adapter.notifyItemRangeInserted(0, userList.size)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle errors
+                Log.e("FirebaseData", "Error: ${databaseError.message}")
+            }
+        })
     }
 
     private fun setupBackPressedHandler() {
