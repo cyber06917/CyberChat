@@ -8,6 +8,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginSignupActivity : AppCompatActivity() {
 
@@ -16,6 +18,7 @@ class LoginSignupActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var signUpTextView: TextView
+    private lateinit var mDatabaseRef : DatabaseReference
     private var email: String = ""
     private var password: String = ""
 
@@ -42,6 +45,7 @@ class LoginSignupActivity : AppCompatActivity() {
         signUpTextView = findViewById(R.id.signupLinkId)
         signUpTextView.isClickable = true
         myAuth = FirebaseAuth.getInstance()
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("user")
 
     }
 
@@ -81,6 +85,9 @@ class LoginSignupActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Registration successful
                         Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
+                        addUserToDatabase(email, myAuth.currentUser?.uid!!)
+                        signIn(email, password)
+
                     } else {
                         // Registration failed
                         Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
@@ -94,6 +101,24 @@ class LoginSignupActivity : AppCompatActivity() {
 
 
     }
+
+    private fun addUserToDatabase(email: String, uid: String) {
+        // Regular expression pattern to match the name part before the "@" symbol
+        val regex = Regex("([^@]+)@.*")
+
+        // Match the email address against the regular expression
+        val matchResult = regex.find(email)
+
+        // Extract the captured group (name) from the match result
+        val name = matchResult?.groupValues?.get(1) ?: ""
+
+        mDatabaseRef.child(uid).setValue(User(name, email, uid))
+
+
+
+    }
+
+
     // Validate a email
     private fun isEmailPasswordValid(){
         // signup email & password
