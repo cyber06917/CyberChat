@@ -9,4 +9,7 @@
     <string name="email_pattern">[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com)</string>
     <string name="password_pattern"><![CDATA[^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$]]></string>
     <string name="logout_menu">Logout</string>
+    <string name="dummy_text">hay it\'s me</string>
+    <string name="dummy_message">Type your message...</string>
+    <string name="content_description">send button</string>
 </resources>
