@@ -1,0 +1,16 @@
+<!-- pointy_edge.xml -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <rotate
+            android:fromDegrees="45"
+            android:toDegrees="45"
+            android:pivotX="-10%"
+            android:pivotY="100%">
+            <shape
+                android:shape="rectangle">
+                <solid android:color="#FF5722" /> <!-- Change the color as needed -->
+            </shape>
+        </rotate>
+    </item>
+</layer-list>
